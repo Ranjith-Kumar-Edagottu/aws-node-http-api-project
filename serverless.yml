@@ -1,0 +1,65 @@
+org: ranjithedagottu
+app: aws-node-http-api-project
+service: aws-node-http-api-project
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: dev
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:GetItem
+            - dynamodb:scan
+          Resource:
+            - arn:aws:dynamodb:us-east-1:545587707754:table/TodoTable
+
+functions:
+  hello:
+    handler: src/hello.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  createTask:
+    handler: src/createTask.handler
+    events:
+      - httpApi:
+          path: /tasks
+          method: post
+
+  getTasks:
+    handler: src/getTasks.handler
+    events:
+      - httpApi:
+          path: /tasks
+          method: get
+
+  updateTask:
+    handler: src/updateTask.handler
+    events:
+      - httpApi:
+          path: /tasks/{id}
+          method: put
+
+resources:
+  Resources:
+    TodoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TodoTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH

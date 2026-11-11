@@ -1,0 +1,12 @@
+{
+  "name": "aws-node-http-api-project",
+  "version": "1.0.0",
+  "description": "Serverless Task Management HTTP REST API deployed on AWS Lambda with DynamoDB using Serverless Framework",
+  "main": "src/hello.js",
+  "author": "Ranjith Kumar",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1267.0",
+    "uuid": "^9.0.0"
+  }
+}
